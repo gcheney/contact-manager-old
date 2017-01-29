@@ -7,7 +7,8 @@ var gulp        = require('gulp'),
     nodemon     = require('gulp-nodemon'),
     browserify  = require('browserify'),
     reactify    = require('reactify'),
-    source      = require('vinyl-source-stream');
+    source      = require('vinyl-source-stream'),
+    concat      = require('gulp-concat');
 
 var config = {
     port: 3000,
@@ -15,8 +16,12 @@ var config = {
     paths: {
         html: './src/*.html',
         js: './src/**/*.js',
-        mainJs: './src/main.js',
-        dist: './dist'
+        css : [
+            'node_modules/bootstrap/dist/css/bootstrap.min.css',
+            'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
+        ],
+        dist: './dist',
+        mainJs: './src/main.js'
     }
 }
 
@@ -41,13 +46,19 @@ gulp.task('js', function() {
         .pipe(livereload());
 });
 
+gulp.task('css', function() {
+    gulp.src(config.paths.css)
+        .pipe(concat('bundle.css'))
+        .pipe(gulp.dest(config.paths.dist + '/styles'));
+});
+
 gulp.task('watch', function() {
     livereload.listen();
     gulp.watch(config.paths.html, ['html']);
     gulp.watch(config.paths.js, ['js']);
 });
 
-gulp.task('serve', ['html', 'js', 'open', 'watch'], function() {
+gulp.task('serve', ['html', 'js', 'css', 'open', 'watch'], function() {
     nodemon({
         script: 'app.js',
         ext: 'js',
