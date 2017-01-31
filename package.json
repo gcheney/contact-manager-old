@@ -1,5 +1,5 @@
 {
-  "name": "task-manager",
+  "name": "contact-manager",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gcheney/task-manager.git"
+    "url": "git+https://github.com/gcheney/contact-manager.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gcheney/task-manager/issues"
+    "url": "https://github.com/gcheney/contact-manager/issues"
   },
-  "homepage": "https://github.com/gcheney/task-manager#readme",
+  "homepage": "https://github.com/gcheney/contact-manager#readme",
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
