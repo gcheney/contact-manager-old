@@ -9,7 +9,8 @@ var gulp        = require('gulp'),
     reactify    = require('reactify'),
     source      = require('vinyl-source-stream'),
     concat      = require('gulp-concat'),
-    eslint        = require('gulp-eslint');    
+    imagemin    = require('gulp-imagemin'),
+    eslint      = require('gulp-eslint');    
 
 var config = {
     port: 3000,
@@ -21,6 +22,7 @@ var config = {
             'node_modules/bootstrap/dist/css/bootstrap.min.css',
             'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
         ],
+        images: './src/images/*',
         dist: './dist',
         mainJs: './src/main.js'
     }
@@ -53,6 +55,13 @@ gulp.task('css', function() {
         .pipe(gulp.dest(config.paths.dist + '/styles'));
 });
 
+gulp.task('images', function() {
+    gulp.src(config.paths.images)
+        .pipe(imagemin())
+        .pipe(gulp.dest(config.paths.dist + '/images'))
+        .pipe(livereload());
+});
+
 gulp.task('eslint', function(){
    return gulp.src(config.paths.js)
     .pipe(eslint())
@@ -66,7 +75,7 @@ gulp.task('watch', function() {
     gulp.watch(config.paths.js, ['js', 'eslint']);
 });
 
-gulp.task('serve', ['html', 'js', 'css', 'eslint', 'open', 'watch'], function() {
+gulp.task('serve', ['html', 'js', 'css', 'images', 'eslint', 'open', 'watch'], function() {
     nodemon({
         script: 'app.js',
         ext: 'js',
