@@ -30125,6 +30125,31 @@ module.exports = require('./lib/React');
 
 var React = require('react');
 
+var Header = React.createClass({displayName: "Header",
+    render: function() {
+        return (
+            React.createElement("nav", {className: "navbar navbar-default"}, 
+                React.createElement("div", {className: "container-fluid"}, 
+                    React.createElement("a", {href: "/", className: "navbar-brand"}, 
+                        "Contact Manager"
+                    ), 
+                    React.createElement("ul", {className: "nav navbar-nav"}, 
+                        React.createElement("li", null, React.createElement("a", {href: "/"}, "Home")), 
+                        React.createElement("li", null, React.createElement("a", {href: "/about"}, "About"))
+                    )
+                )
+            )
+        );
+    }
+});
+
+module.exports = Header;
+
+},{"react":157}],159:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+
 var About = React.createClass({displayName: "About",
     render: function() {
         return (
@@ -30146,7 +30171,7 @@ var About = React.createClass({displayName: "About",
 
 module.exports = About;
 
-},{"react":157}],159:[function(require,module,exports){
+},{"react":157}],160:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -30164,11 +30189,12 @@ var Home = React.createClass({displayName: "Home",
 
 module.exports = Home;
 
-},{"react":157}],160:[function(require,module,exports){
+},{"react":157}],161:[function(require,module,exports){
 $ = jQuery = require('jquery');
 var React = require('react');
 var Home = require('./components/home/homePage');
 var About = require('./components/about/aboutPage');
+var Header = require('./common/header');
 
 (function(win) {
     'use strict';
@@ -30187,6 +30213,7 @@ var About = require('./components/about/aboutPage');
 
             return (
                 React.createElement("div", null, 
+                    React.createElement(Header, null), 
                     React.createElement(Child, null)
                 )
             );
@@ -30202,4 +30229,4 @@ var About = require('./components/about/aboutPage');
     render();
 })(window);
 
-},{"./components/about/aboutPage":158,"./components/home/homePage":159,"jquery":2,"react":157}]},{},[160]);
+},{"./common/header":158,"./components/about/aboutPage":159,"./components/home/homePage":160,"jquery":2,"react":157}]},{},[161]);
