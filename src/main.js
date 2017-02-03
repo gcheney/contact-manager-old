@@ -2,6 +2,7 @@ $ = jQuery = require('jquery');
 var React = require('react');
 var Home = require('./components/home/homePage');
 var About = require('./components/about/aboutPage');
+var Header = require('./common/header');
 
 (function(win) {
     'use strict';
@@ -20,6 +21,7 @@ var About = require('./components/about/aboutPage');
 
             return (
                 <div>
+                    <Header />
                     <Child />
                 </div>
             );
