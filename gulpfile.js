@@ -23,6 +23,7 @@ var config = {
             'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
         ],
         images: './src/images/*',
+        favicon: './src/favicon.ico',
         dist: './dist',
         mainJs: './src/main.js'
     }
@@ -60,6 +61,10 @@ gulp.task('images', function() {
         .pipe(imagemin())
         .pipe(gulp.dest(config.paths.dist + '/images'))
         .pipe(livereload());
+
+    //serve favcion
+    gulp.src(config.paths.favicon)
+        .pipe(gulp.dest(config.paths.dist));
 });
 
 gulp.task('eslint', function(){
