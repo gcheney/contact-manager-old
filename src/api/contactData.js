@@ -10,7 +10,7 @@ module.exports = {
                 street: '123 main st',
                 city: 'anytown',
                 state: 'TX',
-                zip: 33333
+                zipcode: 33333
             }
 		},	
 		{
@@ -22,7 +22,7 @@ module.exports = {
                 street: '123 first st',
                 city: 'anytown',
                 state: 'USA',
-                zip: 44444
+                zipcode: 44444
             }
 		},	
 		{
@@ -34,7 +34,7 @@ module.exports = {
                 street: '4511 ventura blvd',
                 city: 'studio city',
                 state: 'California',
-                zip: 90210
+                zipcode: 90210
             }
 		}
 	]
