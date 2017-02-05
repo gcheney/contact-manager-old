@@ -47353,18 +47353,8 @@ module.exports = About;
 'use strict';
 
 var React = require('react');
-var ContactApi = require('../../api/contactApi');
 
-
-var Contacts = React.createClass({displayName: "Contacts",
-    getInitialState: function() {
-        return {
-            contacts: []
-        };
-    },
-    componentWillMount: function() {
-        this.setState({ contacts: ContactApi.getAllContacts() });
-    },
+var ContactList = React.createClass({displayName: "ContactList",
     render: function() {
         var createContactRow = function(contact) {
             return (
@@ -47379,8 +47369,6 @@ var Contacts = React.createClass({displayName: "Contacts",
 
         return (
             React.createElement("div", null, 
-                React.createElement("h1", null, "Contacts"), 
-
                 React.createElement("table", {className: "table"}, 
                     React.createElement("thead", null, 
                         React.createElement("th", null, " "), 
@@ -47389,7 +47377,7 @@ var Contacts = React.createClass({displayName: "Contacts",
                         React.createElement("th", null, "Address")
                     ), 
                     React.createElement("tbody", null, 
-                        this.state.contacts.map(createContactRow, this)
+                        this.props.contacts.map(createContactRow, this)
                     )
                 )
             )
@@ -47397,9 +47385,39 @@ var Contacts = React.createClass({displayName: "Contacts",
     }
 });
 
+module.exports = ContactList;
+
+},{"react":158}],164:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var ContactApi = require('../../api/contactApi');
+var ContactList = require('./contactList');
+
+var Contacts = React.createClass({displayName: "Contacts",
+    getInitialState: function() {
+        return {
+            contacts: []
+        };
+    },
+    componentDidMount: function() {
+        if (this.isMounted()) {
+            this.setState({ contacts: ContactApi.getAllContacts() });
+        }
+    },
+    render: function() {
+        return (
+            React.createElement("div", null, 
+                React.createElement("h1", null, "Contacts"), 
+                React.createElement(ContactList, {contacts: this.state.contacts})
+            )  
+        );
+    }
+});
+
 module.exports = Contacts;
 
-},{"../../api/contactApi":159,"react":158}],164:[function(require,module,exports){
+},{"../../api/contactApi":159,"./contactList":163,"react":158}],165:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -47417,7 +47435,7 @@ var Home = React.createClass({displayName: "Home",
 
 module.exports = Home;
 
-},{"react":158}],165:[function(require,module,exports){
+},{"react":158}],166:[function(require,module,exports){
 $ = jQuery = require('jquery');
 var React = require('react');
 var Home = require('./components/home/homePage');
@@ -47461,4 +47479,4 @@ var Header = require('./common/header');
     render();
 })(window);
 
-},{"./common/header":161,"./components/about/aboutPage":162,"./components/contacts/contactPage":163,"./components/home/homePage":164,"jquery":2,"react":158}]},{},[165]);
+},{"./common/header":161,"./components/about/aboutPage":162,"./components/contacts/contactPage":164,"./components/home/homePage":165,"jquery":2,"react":158}]},{},[166]);
