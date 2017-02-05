@@ -4,7 +4,7 @@ var React = require('react');
 var ContactApi = require('../../api/contactApi');
 var ContactList = require('./contactList');
 
-var Contacts = React.createClass({
+var ContactPage = React.createClass({
     getInitialState: function() {
         return {
             contacts: []
@@ -25,4 +25,4 @@ var Contacts = React.createClass({
     }
 });
 
-module.exports = Contacts;
+module.exports = ContactPage;

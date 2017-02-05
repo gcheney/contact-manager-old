@@ -47328,7 +47328,7 @@ module.exports = Header;
 
 var React = require('react');
 
-var About = React.createClass({displayName: "About",
+var AboutPage = React.createClass({displayName: "AboutPage",
     render: function() {
         return (
           React.createElement("div", null, 
@@ -47347,7 +47347,7 @@ var About = React.createClass({displayName: "About",
     }
 });
 
-module.exports = About;
+module.exports = AboutPage;
 
 },{"react":158}],163:[function(require,module,exports){
 'use strict';
@@ -47355,6 +47355,9 @@ module.exports = About;
 var React = require('react');
 
 var ContactList = React.createClass({displayName: "ContactList",
+    propTypes: {
+        contacts: React.PropTypes.array.isRequired
+    },
     render: function() {
         var createContactRow = function(contact) {
             return (
@@ -47394,7 +47397,7 @@ var React = require('react');
 var ContactApi = require('../../api/contactApi');
 var ContactList = require('./contactList');
 
-var Contacts = React.createClass({displayName: "Contacts",
+var ContactPage = React.createClass({displayName: "ContactPage",
     getInitialState: function() {
         return {
             contacts: []
@@ -47415,7 +47418,7 @@ var Contacts = React.createClass({displayName: "Contacts",
     }
 });
 
-module.exports = Contacts;
+module.exports = ContactPage;
 
 },{"../../api/contactApi":159,"./contactList":163,"react":158}],165:[function(require,module,exports){
 'use strict';
@@ -47439,8 +47442,8 @@ module.exports = Home;
 $ = jQuery = require('jquery');
 var React = require('react');
 var Home = require('./components/home/homePage');
-var About = require('./components/about/aboutPage');
-var Contacts = require('./components/contacts/contactPage');
+var AboutPage = require('./components/about/aboutPage');
+var ContactPage = require('./components/contacts/contactPage');
 var Header = require('./common/header');
 
 (function(win) {
@@ -47452,10 +47455,10 @@ var Header = require('./common/header');
 
             switch (this.props.route) {
                 case 'about':
-                    Child = About;
+                    Child = AboutPage;
                     break;
                 case 'contacts':
-                    Child = Contacts;
+                    Child = ContactPage;
                     break;
                 default:
                     Child = Home;

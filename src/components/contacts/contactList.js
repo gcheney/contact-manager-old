@@ -3,6 +3,9 @@
 var React = require('react');
 
 var ContactList = React.createClass({
+    propTypes: {
+        contacts: React.PropTypes.array.isRequired
+    },
     render: function() {
         var createContactRow = function(contact) {
             return (
