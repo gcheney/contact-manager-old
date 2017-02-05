@@ -80,7 +80,7 @@ gulp.task('watch', function() {
     gulp.watch(config.paths.js, ['js', 'eslint']);
 });
 
-gulp.task('serve', ['html', 'js', 'css', 'images', 'eslint', 'open', 'watch'], function() {
+gulp.task('serve', ['html', 'js', 'css', 'images', 'eslint', 'watch'], function() {
     nodemon({
         script: 'app.js',
         ext: 'js',
@@ -89,7 +89,7 @@ gulp.task('serve', ['html', 'js', 'css', 'images', 'eslint', 'open', 'watch'], f
         },
         ignore: ['./node_modules/**']
     })
-    .on('start', function () {
+    .on('start', ['open'], function () {
         notify('Starting server...');
     })
     .on('restart', function() {
