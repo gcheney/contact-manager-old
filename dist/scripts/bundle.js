@@ -50446,13 +50446,13 @@ module.exports = Home;
 },{"react":197,"react-router":34}],207:[function(require,module,exports){
 var React = require('react');
 var Router = require('react-router');
-var routes = require('./routes');
+var routes = require('./routes/routes');
 
-Router.run(routes, function(Handler) {
+Router.run(routes, Router.HistoryLocation, function(Handler) {
     React.render(React.createElement(Handler, null), document.getElementById('app'));
 });
 
-},{"./routes":208,"react":197,"react-router":34}],208:[function(require,module,exports){
+},{"./routes/routes":208,"react":197,"react-router":34}],208:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50460,16 +50460,18 @@ var Router = require('react-router');
 var DefaultRoute = Router.DefaultRoute;
 var Route = Router.Route;
 var NotFoundRoute = Router.NotFoundRoute;
+var Redirect = Router.Redirect;
 
 var routes = (
-    React.createElement(Route, {name: "app", path: "/", handler: require('./components/app')}, 
-        React.createElement(DefaultRoute, {handler: require('./components/home/homePage')}), 
-        React.createElement(Route, {name: "contacts", handler: require('./components/contacts/contactPage')}), 
-        React.createElement(Route, {name: "about", handler: require('./components/about/aboutPage')}), 
-        React.createElement(NotFoundRoute, {handler: require('./components/error/404')})
+    React.createElement(Route, {name: "app", path: "/", handler: require('../components/app')}, 
+        React.createElement(DefaultRoute, {handler: require('../components/home/homePage')}), 
+        React.createElement(Route, {name: "contacts", handler: require('../components/contacts/contactPage')}), 
+        React.createElement(Route, {name: "about", handler: require('../components/about/aboutPage')}), 
+        React.createElement(NotFoundRoute, {handler: require('../components/error/404')}), 
+        React.createElement(Redirect, {from: "contact", to: "contacts"})
     )
 );
 
 module.exports = routes;
 
-},{"./components/about/aboutPage":201,"./components/app":202,"./components/contacts/contactPage":204,"./components/error/404":205,"./components/home/homePage":206,"react":197,"react-router":34}]},{},[207]);
+},{"../components/about/aboutPage":201,"../components/app":202,"../components/contacts/contactPage":204,"../components/error/404":205,"../components/home/homePage":206,"react":197,"react-router":34}]},{},[207]);
