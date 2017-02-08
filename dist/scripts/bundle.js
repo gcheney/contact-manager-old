@@ -50405,8 +50405,29 @@ module.exports = ContactPage;
 'use strict';
 
 var React = require('react');
-var Router = require('react-router');
-var Link = Router.Link;
+var Link = require('react-router').Link;
+
+var NotFoundPage = React.createClass({displayName: "NotFoundPage",
+    render: function() {
+        return(
+            React.createElement("div", {className: "jumbotron"}, 
+                React.createElement("div", {className: "text-center"}, 
+                    React.createElement("h1", null, "404 - Page Not Found"), 
+                    React.createElement("p", null, "Sorry, the requested page could not be found"), 
+                    React.createElement("p", null, React.createElement(Link, {to: "app"}, "Home"))
+                )
+            )
+        );
+    }
+});
+
+module.exports = NotFoundPage;
+
+},{"react":197,"react-router":34}],206:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var Link = require('react-router').Link;
 
 var Home = React.createClass({displayName: "Home",
     render: function() {
@@ -50414,7 +50435,7 @@ var Home = React.createClass({displayName: "Home",
           React.createElement("div", {className: "jumbotron"}, 
             React.createElement("h1", null, "Contact Manager"), 
             React.createElement("p", null, "Manage your contacts all in one place"), 
-            React.createElement(Link, {to: "contacts", className: "btn btn-primary btn-lg text-center"}, "Get Started")
+            React.createElement(Link, {to: "contacts", className: "btn btn-primary btn-lg"}, "Get Started")
           )  
         );
     }
@@ -50422,7 +50443,7 @@ var Home = React.createClass({displayName: "Home",
 
 module.exports = Home;
 
-},{"react":197,"react-router":34}],206:[function(require,module,exports){
+},{"react":197,"react-router":34}],207:[function(require,module,exports){
 var React = require('react');
 var Router = require('react-router');
 var routes = require('./routes');
@@ -50431,22 +50452,24 @@ Router.run(routes, function(Handler) {
     React.render(React.createElement(Handler, null), document.getElementById('app'));
 });
 
-},{"./routes":207,"react":197,"react-router":34}],207:[function(require,module,exports){
+},{"./routes":208,"react":197,"react-router":34}],208:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var Router = require('react-router');
 var DefaultRoute = Router.DefaultRoute;
 var Route = Router.Route;
+var NotFoundRoute = Router.NotFoundRoute;
 
 var routes = (
     React.createElement(Route, {name: "app", path: "/", handler: require('./components/app')}, 
         React.createElement(DefaultRoute, {handler: require('./components/home/homePage')}), 
         React.createElement(Route, {name: "contacts", handler: require('./components/contacts/contactPage')}), 
-        React.createElement(Route, {name: "about", handler: require('./components/about/aboutPage')})
+        React.createElement(Route, {name: "about", handler: require('./components/about/aboutPage')}), 
+        React.createElement(NotFoundRoute, {handler: require('./components/error/404')})
     )
 );
 
 module.exports = routes;
 
-},{"./components/about/aboutPage":201,"./components/app":202,"./components/contacts/contactPage":204,"./components/home/homePage":205,"react":197,"react-router":34}]},{},[206]);
+},{"./components/about/aboutPage":201,"./components/app":202,"./components/contacts/contactPage":204,"./components/error/404":205,"./components/home/homePage":206,"react":197,"react-router":34}]},{},[207]);
