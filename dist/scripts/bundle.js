@@ -50257,19 +50257,21 @@ module.exports = {
 'use strict';
 
 var React = require('react');
+var Router = require('react-router');
+var Link = Router.Link;
 
 var Header = React.createClass({displayName: "Header",
     render: function() {
         return (
             React.createElement("nav", {className: "navbar navbar-default"}, 
                 React.createElement("div", {className: "container-fluid"}, 
-                    React.createElement("a", {href: "/", className: "navbar-brand"}, 
+                    React.createElement(Link, {to: "app", className: "navbar-brand"}, 
                         "Contact Manager"
                     ), 
                     React.createElement("ul", {className: "nav navbar-nav"}, 
-                        React.createElement("li", null, React.createElement("a", {href: "/"}, "Home")), 
-                        React.createElement("li", null, React.createElement("a", {href: "/#about"}, "About")), 
-                        React.createElement("li", null, React.createElement("a", {href: "/#contacts"}, "Contacts"))
+                        React.createElement("li", null, React.createElement(Link, {to: "app"}, "Home")), 
+                        React.createElement("li", null, React.createElement(Link, {to: "about"}, "About")), 
+                        React.createElement("li", null, React.createElement(Link, {to: "contacts"}, "Contacts"))
                     )
                 )
             )
@@ -50279,7 +50281,7 @@ var Header = React.createClass({displayName: "Header",
 
 module.exports = Header;
 
-},{"react":197}],201:[function(require,module,exports){
+},{"react":197,"react-router":34}],201:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50403,13 +50405,16 @@ module.exports = ContactPage;
 'use strict';
 
 var React = require('react');
+var Router = require('react-router');
+var Link = Router.Link;
 
 var Home = React.createClass({displayName: "Home",
     render: function() {
         return (
           React.createElement("div", {className: "jumbotron"}, 
             React.createElement("h1", null, "Contact Manager"), 
-            React.createElement("p", null, "Manage your contacts all in one place")
+            React.createElement("p", null, "Manage your contacts all in one place"), 
+            React.createElement(Link, {to: "contacts", className: "btn btn-primary btn-lg text-center"}, "Get Started")
           )  
         );
     }
@@ -50417,7 +50422,7 @@ var Home = React.createClass({displayName: "Home",
 
 module.exports = Home;
 
-},{"react":197}],206:[function(require,module,exports){
+},{"react":197,"react-router":34}],206:[function(require,module,exports){
 var React = require('react');
 var Router = require('react-router');
 var routes = require('./routes');
