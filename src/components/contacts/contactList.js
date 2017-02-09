@@ -13,7 +13,7 @@ var ContactList = React.createClass({
                     <td><a href={"/#contacts/" + contact.id} className="btn btn-default">Edit</a></td>
                     <td>{contact.firstName} {contact.lastName}</td>
                     <td>{contact.phoneNumber}</td>
-                    <td>{contact.address.street} {contact.address.city}, {contact.address.state} {contact.address.zipcode}</td>
+                    <td>{contact.address}</td>
                 </tr>
             );
         };

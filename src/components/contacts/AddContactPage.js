@@ -1,11 +1,15 @@
 'use strict';
 
 var React = require('react');
+var ContactForm = require('./contactForm');
 
 var AddContactPage = React.createClass({
     render: function() {
         return (
-            <h1>Add Contact</h1>
+            <div>
+                <h1 className="text-center">Add Contact</h1>
+                <ContactForm />
+            </div>
         );
     }
 });

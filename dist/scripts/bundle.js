@@ -50219,36 +50219,21 @@ module.exports = {
 			firstName: 'Johnny', 
 			lastName: 'Tsunami',
             phoneNumber: '333-333-3333',
-            address: {
-                street: '123 main st',
-                city: 'anytown',
-                state: 'TX',
-                zipcode: 33333
-            }
+            address: '123 Main street, austin, tx'
 		},	
 		{
 			id: 3, 
 			firstName: 'Johnnny', 
 			lastName: 'Toonami',
             phoneNumber: '444-444-4444',
-            address: {
-                street: '123 first st',
-                city: 'anytown',
-                state: 'USA',
-                zipcode: 44444
-            }
+            address: '123 pecan street, San Antonio, tx'
 		},	
 		{
 			id: 3, 
 			firstName: 'Jenny', 
 			lastName: 'Jenny',
             phoneNumber: '8675309',
-            address: {
-                street: '4511 ventura blvd',
-                city: 'studio city',
-                state: 'California',
-                zipcode: 90210
-            }
+            address: '123 S. first street, austin, tx'
 		}
 	]
 };
@@ -50334,18 +50319,58 @@ module.exports = App;
 'use strict';
 
 var React = require('react');
+var ContactForm = require('./contactForm');
 
 var AddContactPage = React.createClass({displayName: "AddContactPage",
     render: function() {
         return (
-            React.createElement("h1", null, "Add Contact")
+            React.createElement("div", null, 
+                React.createElement("h1", {className: "text-center"}, "Add Contact"), 
+                React.createElement(ContactForm, null)
+            )
         );
     }
 });
 
 module.exports = AddContactPage;
 
-},{"react":197}],204:[function(require,module,exports){
+},{"./contactForm":204,"react":197}],204:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+
+var ContactForm = React.createClass({displayName: "ContactForm",
+
+    render: function() {
+        return (
+            React.createElement("form", {className: "col-md-8 col-md-offset-2"}, 
+                React.createElement("label", {htmlFor: "firstName"}, "First Name"), 
+                React.createElement("input", {type: "text", name: "firstName", className: "form-control", placeholder: "First Name", ref: "firstName", value: ""}), 
+                React.createElement("br", null), 
+
+                React.createElement("label", {htmlFor: "lastName"}, "Last Name"), 
+                React.createElement("input", {type: "text", name: "lastName", className: "form-control", placeholder: "Last Name", ref: "lastName", value: ""}), 
+                React.createElement("br", null), 
+
+                React.createElement("label", {htmlFor: "phoneNumber"}, "Phone Number"), 
+                React.createElement("input", {type: "text", name: "phoneNumber", className: "form-control", placeholder: "Phone Number", ref: "phoneNumber", value: ""}), 
+                React.createElement("br", null), 
+
+                React.createElement("label", {htmlFor: "streetAddress"}, "Street Address"), 
+                React.createElement("input", {type: "text", name: "streetAddress", className: "form-control", placeholder: "Street Address", ref: "streetAddress", value: ""}), 
+                React.createElement("br", null), 
+
+                React.createElement("div", {className: "text-center"}, 
+                    React.createElement("input", {type: "submit", value: "Save Contact", className: "btn btn-primary"})
+                )
+            )
+        );
+    }
+});
+
+module.exports = ContactForm;
+
+},{"react":197}],205:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50361,7 +50386,7 @@ var ContactList = React.createClass({displayName: "ContactList",
                     React.createElement("td", null, React.createElement("a", {href: "/#contacts/" + contact.id, className: "btn btn-default"}, "Edit")), 
                     React.createElement("td", null, contact.firstName, " ", contact.lastName), 
                     React.createElement("td", null, contact.phoneNumber), 
-                    React.createElement("td", null, contact.address.street, " ", contact.address.city, ", ", contact.address.state, " ", contact.address.zipcode)
+                    React.createElement("td", null, contact.address)
                 )
             );
         };
@@ -50386,7 +50411,7 @@ var ContactList = React.createClass({displayName: "ContactList",
 
 module.exports = ContactList;
 
-},{"react":197}],205:[function(require,module,exports){
+},{"react":197}],206:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50419,7 +50444,7 @@ var ContactPage = React.createClass({displayName: "ContactPage",
 
 module.exports = ContactPage;
 
-},{"../../api/contactApi":198,"./contactList":204,"react":197,"react-router":34}],206:[function(require,module,exports){
+},{"../../api/contactApi":198,"./contactList":205,"react":197,"react-router":34}],207:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50441,7 +50466,7 @@ var NotFoundPage = React.createClass({displayName: "NotFoundPage",
 
 module.exports = NotFoundPage;
 
-},{"react":197,"react-router":34}],207:[function(require,module,exports){
+},{"react":197,"react-router":34}],208:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50461,7 +50486,7 @@ var Home = React.createClass({displayName: "Home",
 
 module.exports = Home;
 
-},{"react":197,"react-router":34}],208:[function(require,module,exports){
+},{"react":197,"react-router":34}],209:[function(require,module,exports){
 var React = require('react');
 var Router = require('react-router');
 var routes = require('./routes/routes');
@@ -50470,7 +50495,7 @@ Router.run(routes, Router.HistoryLocation, function(Handler) {
     React.render(React.createElement(Handler, null), document.getElementById('app'));
 });
 
-},{"./routes/routes":209,"react":197,"react-router":34}],209:[function(require,module,exports){
+},{"./routes/routes":210,"react":197,"react-router":34}],210:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50493,4 +50518,4 @@ var routes = (
 
 module.exports = routes;
 
-},{"../components/about/aboutPage":201,"../components/app":202,"../components/contacts/AddContactPage":203,"../components/contacts/contactPage":205,"../components/error/404":206,"../components/home/homePage":207,"react":197,"react-router":34}]},{},[208]);
+},{"../components/about/aboutPage":201,"../components/app":202,"../components/contacts/AddContactPage":203,"../components/contacts/contactPage":206,"../components/error/404":207,"../components/home/homePage":208,"react":197,"react-router":34}]},{},[209]);
