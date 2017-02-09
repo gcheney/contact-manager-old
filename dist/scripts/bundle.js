@@ -50248,13 +50248,12 @@ var Link = Router.Link;
 var Header = React.createClass({displayName: "Header",
     render: function() {
         return (
-            React.createElement("nav", {className: "navbar navbar-default"}, 
+            React.createElement("nav", {className: "navbar navbar-inverse", role: "navigation"}, 
                 React.createElement("div", {className: "container-fluid"}, 
-                    React.createElement(Link, {to: "app", className: "navbar-brand"}, 
-                        "Contact Manager"
+                    React.createElement("div", {className: "navbar-header"}, 
+                        React.createElement(Link, {to: "app", className: "navbar-brand"}, "Contact Manager")
                     ), 
                     React.createElement("ul", {className: "nav navbar-nav"}, 
-                        React.createElement("li", null, React.createElement(Link, {to: "app"}, "Home")), 
                         React.createElement("li", null, React.createElement(Link, {to: "about"}, "About")), 
                         React.createElement("li", null, React.createElement(Link, {to: "contacts"}, "Contacts"))
                     )
