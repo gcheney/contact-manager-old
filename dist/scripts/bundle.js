@@ -50335,6 +50335,21 @@ module.exports = App;
 
 var React = require('react');
 
+var AddContactPage = React.createClass({displayName: "AddContactPage",
+    render: function() {
+        return (
+            React.createElement("h1", null, "Add Contact")
+        );
+    }
+});
+
+module.exports = AddContactPage;
+
+},{"react":197}],204:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+
 var ContactList = React.createClass({displayName: "ContactList",
     propTypes: {
         contacts: React.PropTypes.array.isRequired
@@ -50371,10 +50386,12 @@ var ContactList = React.createClass({displayName: "ContactList",
 
 module.exports = ContactList;
 
-},{"react":197}],204:[function(require,module,exports){
+},{"react":197}],205:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
+var Router = require('react-router');
+var Link = require('react-router').Link;
 var ContactApi = require('../../api/contactApi');
 var ContactList = require('./contactList');
 
@@ -50393,6 +50410,7 @@ var ContactPage = React.createClass({displayName: "ContactPage",
         return (
             React.createElement("div", null, 
                 React.createElement("h1", null, "Contacts"), 
+                React.createElement(Link, {to: "addContact", className: "btn btn-default"}, "Add Contact"), 
                 React.createElement(ContactList, {contacts: this.state.contacts})
             )  
         );
@@ -50401,7 +50419,7 @@ var ContactPage = React.createClass({displayName: "ContactPage",
 
 module.exports = ContactPage;
 
-},{"../../api/contactApi":198,"./contactList":203,"react":197}],205:[function(require,module,exports){
+},{"../../api/contactApi":198,"./contactList":204,"react":197,"react-router":34}],206:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50423,7 +50441,7 @@ var NotFoundPage = React.createClass({displayName: "NotFoundPage",
 
 module.exports = NotFoundPage;
 
-},{"react":197,"react-router":34}],206:[function(require,module,exports){
+},{"react":197,"react-router":34}],207:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50443,7 +50461,7 @@ var Home = React.createClass({displayName: "Home",
 
 module.exports = Home;
 
-},{"react":197,"react-router":34}],207:[function(require,module,exports){
+},{"react":197,"react-router":34}],208:[function(require,module,exports){
 var React = require('react');
 var Router = require('react-router');
 var routes = require('./routes/routes');
@@ -50452,7 +50470,7 @@ Router.run(routes, Router.HistoryLocation, function(Handler) {
     React.render(React.createElement(Handler, null), document.getElementById('app'));
 });
 
-},{"./routes/routes":208,"react":197,"react-router":34}],208:[function(require,module,exports){
+},{"./routes/routes":209,"react":197,"react-router":34}],209:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50466,6 +50484,7 @@ var routes = (
     React.createElement(Route, {name: "app", path: "/", handler: require('../components/app')}, 
         React.createElement(DefaultRoute, {handler: require('../components/home/homePage')}), 
         React.createElement(Route, {name: "contacts", handler: require('../components/contacts/contactPage')}), 
+        React.createElement(Route, {name: "addContact", path: "contacts/add", handler: require('../components/contacts/AddContactPage')}), 
         React.createElement(Route, {name: "about", handler: require('../components/about/aboutPage')}), 
         React.createElement(NotFoundRoute, {handler: require('../components/error/404')}), 
         React.createElement(Redirect, {from: "contact", to: "contacts"})
@@ -50474,4 +50493,4 @@ var routes = (
 
 module.exports = routes;
 
-},{"../components/about/aboutPage":201,"../components/app":202,"../components/contacts/contactPage":204,"../components/error/404":205,"../components/home/homePage":206,"react":197,"react-router":34}]},{},[207]);
+},{"../components/about/aboutPage":201,"../components/app":202,"../components/contacts/AddContactPage":203,"../components/contacts/contactPage":205,"../components/error/404":206,"../components/home/homePage":207,"react":197,"react-router":34}]},{},[208]);
