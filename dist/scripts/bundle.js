@@ -50321,11 +50321,30 @@ var React = require('react');
 var ContactForm = require('./contactForm');
 
 var AddContactPage = React.createClass({displayName: "AddContactPage",
+    getInitialState: function() {
+        return {
+            contact: {
+                id: 1, 
+                firstName: 'Johnny', 
+                lastName: 'Tsunami',
+                phoneNumber: '333-333-3333',
+                address: '123 Main street, austin, tx'
+            }
+        };
+    },
+
+    setContactState: function(e) {
+        var field = e.target.name;
+        var value = e.target.value;
+        this.state.contact[field] = value;
+        return this.setState({contact: this.state.contact});
+    },
+
     render: function() {
         return (
             React.createElement("div", null, 
                 React.createElement("h1", {className: "text-center"}, "Add Contact"), 
-                React.createElement(ContactForm, null)
+                React.createElement(ContactForm, {contact: this.state.contact, onChange: this.setContactState})
             )
         );
     }
@@ -50344,19 +50363,31 @@ var ContactForm = React.createClass({displayName: "ContactForm",
         return (
             React.createElement("form", {className: "col-md-8 col-md-offset-2"}, 
                 React.createElement("label", {htmlFor: "firstName"}, "First Name"), 
-                React.createElement("input", {type: "text", name: "firstName", className: "form-control", placeholder: "First Name", ref: "firstName", value: ""}), 
+                React.createElement("input", {type: "text", name: "firstName", 
+                    className: "form-control", placeholder: "First Name", 
+                    ref: "firstName", onChange: this.props.onChange, 
+                    value: this.props.contact.firstName}), 
                 React.createElement("br", null), 
 
                 React.createElement("label", {htmlFor: "lastName"}, "Last Name"), 
-                React.createElement("input", {type: "text", name: "lastName", className: "form-control", placeholder: "Last Name", ref: "lastName", value: ""}), 
+                React.createElement("input", {type: "text", name: "lastName", 
+                    className: "form-control", placeholder: "Last Name", 
+                    ref: "lastName", onChange: this.props.onChange, 
+                    value: this.props.contact.lastName}), 
                 React.createElement("br", null), 
 
                 React.createElement("label", {htmlFor: "phoneNumber"}, "Phone Number"), 
-                React.createElement("input", {type: "text", name: "phoneNumber", className: "form-control", placeholder: "Phone Number", ref: "phoneNumber", value: ""}), 
+                React.createElement("input", {type: "text", name: "phoneNumber", 
+                    className: "form-control", placeholder: "Phone Number", 
+                    ref: "phoneNumber", onChange: this.props.onChange, 
+                    value: this.props.contact.phoneNumber}), 
                 React.createElement("br", null), 
 
                 React.createElement("label", {htmlFor: "streetAddress"}, "Street Address"), 
-                React.createElement("input", {type: "text", name: "streetAddress", className: "form-control", placeholder: "Street Address", ref: "streetAddress", value: ""}), 
+                React.createElement("input", {type: "text", name: "streetAddress", 
+                    className: "form-control", placeholder: "Street Address", 
+                    ref: "streetAddress", onChange: this.props.onChange, 
+                    value: this.props.contact.address}), 
                 React.createElement("br", null), 
 
                 React.createElement("div", {className: "text-center"}, 
