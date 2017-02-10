@@ -1,39 +1,24 @@
 'use strict';
 
 var React = require('react');
+var TextInput = require('../common/textInput')
 
 var ContactForm = React.createClass({
 
     render: function() {
         return (
             <form className="col-md-8 col-md-offset-2">
-                <label htmlFor="firstName">First Name</label>
-                <input type="text" name="firstName" 
-                    className="form-control" placeholder="First Name" 
-                    ref="firstName" onChange={this.props.onChange}
-                    value={this.props.contact.firstName} />
-                <br />
+                <TextInput name="firstName" label="firstName" 
+                    value={this.props.contact.firstName} onChange={this.props.onChange} />
 
-                <label htmlFor="lastName">Last Name</label>
-                <input type="text" name="lastName" 
-                    className="form-control" placeholder="Last Name" 
-                    ref="lastName" onChange={this.props.onChange}
-                    value={this.props.contact.lastName} />
-                <br />
+                <TextInput name="lastName" label="lastName" 
+                    value={this.props.contact.lastName} onChange={this.props.onChange} />
 
-                <label htmlFor="phoneNumber">Phone Number</label>
-                <input type="text" name="phoneNumber" 
-                    className="form-control" placeholder="Phone Number" 
-                    ref="phoneNumber" onChange={this.props.onChange}
-                    value={this.props.contact.phoneNumber} />
-                <br />
+                <TextInput name="phoneNumber" label="phoneNumber" 
+                    value={this.props.contact.phoneNumber} onChange={this.props.onChange} />
 
-                <label htmlFor="streetAddress">Street Address</label>
-                <input type="text" name="streetAddress" 
-                    className="form-control" placeholder="Street Address" 
-                    ref="streetAddress" onChange={this.props.onChange}
-                    value={this.props.contact.address} />   
-                <br />
+                <TextInput name="address" label="address" 
+                    value={this.props.contact.address} onChange={this.props.onChange} />
 
                 <div className="text-center">
                     <input type="submit" value="Save Contact" className="btn btn-primary" />

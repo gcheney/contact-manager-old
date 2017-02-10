@@ -50242,6 +50242,55 @@ module.exports = {
 'use strict';
 
 var React = require('react');
+
+var AboutPage = React.createClass({displayName: "AboutPage",
+    render: function() {
+        return (
+          React.createElement("div", null, 
+            React.createElement("h1", null, "This is a demo app created on the MERN stack"), 
+            React.createElement("p", null, 
+                "This app uses the following technologies:", 
+                React.createElement("ul", null, 
+                    React.createElement("li", null, "MongoDB"), 
+                    React.createElement("li", null, "Express.js"), 
+                    React.createElement("li", null, "React"), 
+                    React.createElement("li", null, "Node.js")
+                )
+            )
+          )  
+        );
+    }
+});
+
+module.exports = AboutPage;
+
+},{"react":197}],201:[function(require,module,exports){
+/*eslint-disable strict */ //global var needed for jQuery/Bootstrap
+
+var React = require('react');
+var RouteHandler = require('react-router').RouteHandler;
+var Header = require('./common/header');
+$ = jQuery = require('jquery');
+
+var App = React.createClass({displayName: "App",
+    render: function() {
+        return (
+            React.createElement("div", null, 
+                React.createElement(Header, null), 
+                React.createElement("div", {className: "container-fluid"}, 
+                    React.createElement(RouteHandler, null)
+                )
+            )
+        );
+    }
+});
+
+module.exports = App;
+
+},{"./common/header":202,"jquery":2,"react":197,"react-router":34}],202:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
 var Router = require('react-router');
 var Link = Router.Link;
 
@@ -50265,56 +50314,48 @@ var Header = React.createClass({displayName: "Header",
 
 module.exports = Header;
 
-},{"react":197,"react-router":34}],201:[function(require,module,exports){
+},{"react":197,"react-router":34}],203:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 
-var AboutPage = React.createClass({displayName: "AboutPage",
-    render: function() {
-        return (
-          React.createElement("div", null, 
-            React.createElement("h1", null, "This is a demo app created on the MERN stack"), 
-            React.createElement("p", null, 
-                "This app uses the following technologies:", 
-                React.createElement("ul", null, 
-                    React.createElement("li", null, "MongoDB"), 
-                    React.createElement("li", null, "Express.js"), 
-                    React.createElement("li", null, "React"), 
-                    React.createElement("li", null, "Node.js")
-                )
-            )
-          )  
-        );
+var TextInput = React.createClass({displayName: "TextInput",
+  propTypes: {
+    name: React.PropTypes.string.isRequired,
+    label: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    placeholder: React.PropTypes.string,
+    value: React.PropTypes.string,
+    error: React.PropTypes.string
+  },
+
+  render: function () {
+    var wrapperClass = 'form-group';
+    if (this.props.error && this.props.error.length > 0) {
+      wrapperClass += " " + 'has-error';
     }
+    
+    return (
+     React.createElement("div", {className: wrapperClass}, 
+        React.createElement("label", {htmlFor: this.props.name}, this.props.label), 
+        React.createElement("div", {className: "field"}, 
+          React.createElement("input", {type: "text", 
+            name: this.props.name, 
+            className: "form-control", 
+            placeholder: this.props.placeholder, 
+            ref: this.props.name, 
+            value: this.props.value, 
+            onChange: this.props.onChange}), 
+          React.createElement("div", {className: "input"}, this.props.error)
+        )
+      )
+    );
+  }
 });
 
-module.exports = AboutPage;
+module.exports = TextInput;
 
-},{"react":197}],202:[function(require,module,exports){
-/*eslint-disable strict */ //global var needed for jQuery/Bootstrap
-
-var React = require('react');
-var RouteHandler = require('react-router').RouteHandler;
-var Header = require('../common/header');
-$ = jQuery = require('jquery');
-
-var App = React.createClass({displayName: "App",
-    render: function() {
-        return (
-            React.createElement("div", null, 
-                React.createElement(Header, null), 
-                React.createElement("div", {className: "container-fluid"}, 
-                    React.createElement(RouteHandler, null)
-                )
-            )
-        );
-    }
-});
-
-module.exports = App;
-
-},{"../common/header":200,"jquery":2,"react":197,"react-router":34}],203:[function(require,module,exports){
+},{"react":197}],204:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50352,43 +50393,28 @@ var AddContactPage = React.createClass({displayName: "AddContactPage",
 
 module.exports = AddContactPage;
 
-},{"./contactForm":204,"react":197}],204:[function(require,module,exports){
+},{"./contactForm":205,"react":197}],205:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
+var TextInput = require('../common/textInput')
 
 var ContactForm = React.createClass({displayName: "ContactForm",
 
     render: function() {
         return (
             React.createElement("form", {className: "col-md-8 col-md-offset-2"}, 
-                React.createElement("label", {htmlFor: "firstName"}, "First Name"), 
-                React.createElement("input", {type: "text", name: "firstName", 
-                    className: "form-control", placeholder: "First Name", 
-                    ref: "firstName", onChange: this.props.onChange, 
-                    value: this.props.contact.firstName}), 
-                React.createElement("br", null), 
+                React.createElement(TextInput, {name: "firstName", label: "firstName", 
+                    value: this.props.contact.firstName, onChange: this.props.onChange}), 
 
-                React.createElement("label", {htmlFor: "lastName"}, "Last Name"), 
-                React.createElement("input", {type: "text", name: "lastName", 
-                    className: "form-control", placeholder: "Last Name", 
-                    ref: "lastName", onChange: this.props.onChange, 
-                    value: this.props.contact.lastName}), 
-                React.createElement("br", null), 
+                React.createElement(TextInput, {name: "lastName", label: "lastName", 
+                    value: this.props.contact.lastName, onChange: this.props.onChange}), 
 
-                React.createElement("label", {htmlFor: "phoneNumber"}, "Phone Number"), 
-                React.createElement("input", {type: "text", name: "phoneNumber", 
-                    className: "form-control", placeholder: "Phone Number", 
-                    ref: "phoneNumber", onChange: this.props.onChange, 
-                    value: this.props.contact.phoneNumber}), 
-                React.createElement("br", null), 
+                React.createElement(TextInput, {name: "phoneNumber", label: "phoneNumber", 
+                    value: this.props.contact.phoneNumber, onChange: this.props.onChange}), 
 
-                React.createElement("label", {htmlFor: "streetAddress"}, "Street Address"), 
-                React.createElement("input", {type: "text", name: "streetAddress", 
-                    className: "form-control", placeholder: "Street Address", 
-                    ref: "streetAddress", onChange: this.props.onChange, 
-                    value: this.props.contact.address}), 
-                React.createElement("br", null), 
+                React.createElement(TextInput, {name: "address", label: "address", 
+                    value: this.props.contact.address, onChange: this.props.onChange}), 
 
                 React.createElement("div", {className: "text-center"}, 
                     React.createElement("input", {type: "submit", value: "Save Contact", className: "btn btn-primary"})
@@ -50400,7 +50426,7 @@ var ContactForm = React.createClass({displayName: "ContactForm",
 
 module.exports = ContactForm;
 
-},{"react":197}],205:[function(require,module,exports){
+},{"../common/textInput":203,"react":197}],206:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50441,7 +50467,7 @@ var ContactList = React.createClass({displayName: "ContactList",
 
 module.exports = ContactList;
 
-},{"react":197}],206:[function(require,module,exports){
+},{"react":197}],207:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50474,7 +50500,7 @@ var ContactPage = React.createClass({displayName: "ContactPage",
 
 module.exports = ContactPage;
 
-},{"../../api/contactApi":198,"./contactList":205,"react":197,"react-router":34}],207:[function(require,module,exports){
+},{"../../api/contactApi":198,"./contactList":206,"react":197,"react-router":34}],208:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50496,7 +50522,7 @@ var NotFoundPage = React.createClass({displayName: "NotFoundPage",
 
 module.exports = NotFoundPage;
 
-},{"react":197,"react-router":34}],208:[function(require,module,exports){
+},{"react":197,"react-router":34}],209:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50516,7 +50542,7 @@ var Home = React.createClass({displayName: "Home",
 
 module.exports = Home;
 
-},{"react":197,"react-router":34}],209:[function(require,module,exports){
+},{"react":197,"react-router":34}],210:[function(require,module,exports){
 var React = require('react');
 var Router = require('react-router');
 var routes = require('./routes/routes');
@@ -50525,7 +50551,7 @@ Router.run(routes, Router.HistoryLocation, function(Handler) {
     React.render(React.createElement(Handler, null), document.getElementById('app'));
 });
 
-},{"./routes/routes":210,"react":197,"react-router":34}],210:[function(require,module,exports){
+},{"./routes/routes":211,"react":197,"react-router":34}],211:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50548,4 +50574,4 @@ var routes = (
 
 module.exports = routes;
 
-},{"../components/about/aboutPage":201,"../components/app":202,"../components/contacts/AddContactPage":203,"../components/contacts/contactPage":206,"../components/error/404":207,"../components/home/homePage":208,"react":197,"react-router":34}]},{},[209]);
+},{"../components/about/aboutPage":200,"../components/app":201,"../components/contacts/AddContactPage":204,"../components/contacts/contactPage":207,"../components/error/404":208,"../components/home/homePage":209,"react":197,"react-router":34}]},{},[210]);
