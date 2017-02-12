@@ -4,6 +4,7 @@ var React = require('react');
 var Router = require('react-router');
 var ContactForm = require('./contactForm');
 var ContactApi = require('../../api/contactApi');
+var toastr = require('toastr');
 
 var AddContactPage = React.createClass({
     mixins: [
@@ -12,6 +13,7 @@ var AddContactPage = React.createClass({
     getInitialState: function() {
         return {
             contact: {
+                id: '',
                 firstName: '', 
                 lastName: '',
                 phoneNumber: '',
@@ -28,6 +30,7 @@ var AddContactPage = React.createClass({
     saveContact: function(evt) {
         evt.preventDefault();
         ContactApi.saveContact(this.state.contact);
+        toastr.success('New contact saved.');
         this.transitionTo('contacts');
     },
     render: function() {
