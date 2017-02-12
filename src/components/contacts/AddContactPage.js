@@ -1,10 +1,14 @@
 'use strict';
 
 var React = require('react');
+var Router = require('react-router');
 var ContactForm = require('./contactForm');
 var ContactApi = require('../../api/contactApi');
 
 var AddContactPage = React.createClass({
+    mixins: [
+        Router.Navigation
+    ],
     getInitialState: function() {
         return {
             contact: {
@@ -24,6 +28,7 @@ var AddContactPage = React.createClass({
     saveContact: function(evt) {
         evt.preventDefault();
         ContactApi.saveContact(this.state.contact);
+        this.transitionTo('contacts');
     },
     render: function() {
         return (

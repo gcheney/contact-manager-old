@@ -39,6 +39,7 @@
     "path": "^0.12.7",
     "react": "^0.13.3",
     "react-router": "^0.13.3",
+    "toastr": "^2.1.2",
     "vinyl-source-stream": "^1.1.0"
   }
 }

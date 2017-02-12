@@ -50359,10 +50359,14 @@ module.exports = TextInput;
 'use strict';
 
 var React = require('react');
+var Router = require('react-router');
 var ContactForm = require('./contactForm');
 var ContactApi = require('../../api/contactApi');
 
 var AddContactPage = React.createClass({displayName: "AddContactPage",
+    mixins: [
+        Router.Navigation
+    ],
     getInitialState: function() {
         return {
             contact: {
@@ -50382,6 +50386,7 @@ var AddContactPage = React.createClass({displayName: "AddContactPage",
     saveContact: function(evt) {
         evt.preventDefault();
         ContactApi.saveContact(this.state.contact);
+        this.transitionTo('contacts');
     },
     render: function() {
         return (
@@ -50397,7 +50402,7 @@ var AddContactPage = React.createClass({displayName: "AddContactPage",
 
 module.exports = AddContactPage;
 
-},{"../../api/contactApi":198,"./contactForm":205,"react":197}],205:[function(require,module,exports){
+},{"../../api/contactApi":198,"./contactForm":205,"react":197,"react-router":34}],205:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50459,7 +50464,7 @@ var ContactList = React.createClass({displayName: "ContactList",
                         React.createElement("th", null, " "), 
                         React.createElement("th", null, "Name"), 
                         React.createElement("th", null, "Phone Number"), 
-                        React.createElement("th", null, "Address")
+                        React.createElement("th", null, "Home Address")
                     ), 
                     React.createElement("tbody", null, 
                         this.props.contacts.map(createContactRow, this)
