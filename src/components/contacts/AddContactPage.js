@@ -2,32 +2,36 @@
 
 var React = require('react');
 var ContactForm = require('./contactForm');
+var ContactApi = require('../../api/contactApi');
 
 var AddContactPage = React.createClass({
     getInitialState: function() {
         return {
             contact: {
-                id: 1, 
-                firstName: 'Johnny', 
-                lastName: 'Tsunami',
-                phoneNumber: '333-333-3333',
-                address: '123 Main street, austin, tx'
+                firstName: '', 
+                lastName: '',
+                phoneNumber: '',
+                address: ''
             }
         };
     },
-
-    setContactState: function(e) {
-        var field = e.target.name;
-        var value = e.target.value;
+    setContactState: function(evt) {
+        var field = evt.target.name;
+        var value = evt.target.value;
         this.state.contact[field] = value;
         return this.setState({contact: this.state.contact});
     },
-
+    saveContact: function(evt) {
+        evt.preventDefault();
+        ContactApi.saveContact(this.state.contact);
+    },
     render: function() {
         return (
             <div>
                 <h1 className="text-center">Add Contact</h1>
-                <ContactForm contact={this.state.contact} onChange={this.setContactState} />
+                <ContactForm contact={this.state.contact} 
+                    onChange={this.setContactState} 
+                    onSave={this.saveContact} />
             </div>
         );
     }

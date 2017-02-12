@@ -50360,32 +50360,36 @@ module.exports = TextInput;
 
 var React = require('react');
 var ContactForm = require('./contactForm');
+var ContactApi = require('../../api/contactApi');
 
 var AddContactPage = React.createClass({displayName: "AddContactPage",
     getInitialState: function() {
         return {
             contact: {
-                id: 1, 
-                firstName: 'Johnny', 
-                lastName: 'Tsunami',
-                phoneNumber: '333-333-3333',
-                address: '123 Main street, austin, tx'
+                firstName: '', 
+                lastName: '',
+                phoneNumber: '',
+                address: ''
             }
         };
     },
-
-    setContactState: function(e) {
-        var field = e.target.name;
-        var value = e.target.value;
+    setContactState: function(evt) {
+        var field = evt.target.name;
+        var value = evt.target.value;
         this.state.contact[field] = value;
         return this.setState({contact: this.state.contact});
     },
-
+    saveContact: function(evt) {
+        evt.preventDefault();
+        ContactApi.saveContact(this.state.contact);
+    },
     render: function() {
         return (
             React.createElement("div", null, 
                 React.createElement("h1", {className: "text-center"}, "Add Contact"), 
-                React.createElement(ContactForm, {contact: this.state.contact, onChange: this.setContactState})
+                React.createElement(ContactForm, {contact: this.state.contact, 
+                    onChange: this.setContactState, 
+                    onSave: this.saveContact})
             )
         );
     }
@@ -50393,7 +50397,7 @@ var AddContactPage = React.createClass({displayName: "AddContactPage",
 
 module.exports = AddContactPage;
 
-},{"./contactForm":205,"react":197}],205:[function(require,module,exports){
+},{"../../api/contactApi":198,"./contactForm":205,"react":197}],205:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -50404,20 +50408,21 @@ var ContactForm = React.createClass({displayName: "ContactForm",
     render: function() {
         return (
             React.createElement("form", {className: "col-md-8 col-md-offset-2"}, 
-                React.createElement(TextInput, {name: "firstName", label: "firstName", 
+                React.createElement(TextInput, {name: "firstName", label: "First Name", 
                     value: this.props.contact.firstName, onChange: this.props.onChange}), 
 
-                React.createElement(TextInput, {name: "lastName", label: "lastName", 
+                React.createElement(TextInput, {name: "lastName", label: "Last Name", 
                     value: this.props.contact.lastName, onChange: this.props.onChange}), 
 
-                React.createElement(TextInput, {name: "phoneNumber", label: "phoneNumber", 
+                React.createElement(TextInput, {name: "phoneNumber", label: "Phone Number", 
                     value: this.props.contact.phoneNumber, onChange: this.props.onChange}), 
 
-                React.createElement(TextInput, {name: "address", label: "address", 
+                React.createElement(TextInput, {name: "address", label: "Home Address", 
                     value: this.props.contact.address, onChange: this.props.onChange}), 
 
                 React.createElement("div", {className: "text-center"}, 
-                    React.createElement("input", {type: "submit", value: "Save Contact", className: "btn btn-primary"})
+                    React.createElement("input", {type: "submit", value: "Save Contact", 
+                        className: "btn btn-primary", onClick: this.props.onSave})
                 )
             )
         );

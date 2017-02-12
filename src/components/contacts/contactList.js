@@ -25,7 +25,7 @@ var ContactList = React.createClass({
                         <th> </th>
                         <th>Name</th>
                         <th>Phone Number</th>
-                        <th>Address</th>
+                        <th>Home Address</th>
                     </thead>
                     <tbody>
                         {this.props.contacts.map(createContactRow, this)}
