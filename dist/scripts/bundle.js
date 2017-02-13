@@ -50783,7 +50783,7 @@ var TextInput = React.createClass({displayName: "TextInput",
             ref: this.props.name, 
             value: this.props.value, 
             onChange: this.props.onChange}), 
-          React.createElement("div", {className: "input"}, this.props.error)
+          React.createElement("div", {className: "input text-warning"}, this.props.error)
         )
       )
     );
@@ -50813,7 +50813,8 @@ var AddContactPage = React.createClass({displayName: "AddContactPage",
                 lastName: '',
                 phoneNumber: '',
                 address: ''
-            }
+            },
+            errors: {}
         };
     },
     setContactState: function(evt) {
@@ -50822,8 +50823,35 @@ var AddContactPage = React.createClass({displayName: "AddContactPage",
         this.state.contact[field] = value;
         return this.setState({contact: this.state.contact});
     },
+    contactFormIsValid: function() {
+        var formIsValid = true;
+        this.state.errors = {}; // clear previous errors
+
+        if (this.state.contact.firstName.length === 0) {
+            this.state.errors.firstName = 'Please include a first name';
+            formIsValid = false;
+        }
+
+        if (this.state.contact.lastName.length === 0) {
+            this.state.errors.lastName = 'Please include a last name';
+            formIsValid = false;
+        }
+
+        if (this.state.contact.phoneNumber.length === 0) {
+            this.state.errors.phoneNumber = 'Please include a phone number';
+            formIsValid = false;
+        }
+
+        this.setState({errors: this.state.errors});
+        return formIsValid;
+    },
     saveContact: function(evt) {
         evt.preventDefault();
+
+        if (!this.contactFormIsValid()) {
+            return;
+        }
+
         ContactApi.saveContact(this.state.contact);
         toastr.success('New contact saved.');
         this.transitionTo('contacts');
@@ -50834,7 +50862,8 @@ var AddContactPage = React.createClass({displayName: "AddContactPage",
                 React.createElement("h1", {className: "text-center"}, "Add Contact"), 
                 React.createElement(ContactForm, {contact: this.state.contact, 
                     onChange: this.setContactState, 
-                    onSave: this.saveContact})
+                    onSave: this.saveContact, 
+                    errors: this.state.errors})
             )
         );
     }
@@ -50854,20 +50883,22 @@ var ContactForm = React.createClass({displayName: "ContactForm",
         return (
             React.createElement("form", {className: "col-md-8 col-md-offset-2"}, 
                 React.createElement(TextInput, {name: "firstName", label: "First Name", 
-                    value: this.props.contact.firstName, onChange: this.props.onChange}), 
+                    value: this.props.contact.firstName, onChange: this.props.onChange, 
+                    error: this.props.errors.firstName}), 
 
                 React.createElement(TextInput, {name: "lastName", label: "Last Name", 
-                    value: this.props.contact.lastName, onChange: this.props.onChange}), 
+                    value: this.props.contact.lastName, onChange: this.props.onChange, 
+                    error: this.props.errors.firstName}), 
 
                 React.createElement(TextInput, {name: "phoneNumber", label: "Phone Number", 
-                    value: this.props.contact.phoneNumber, onChange: this.props.onChange}), 
+                    value: this.props.contact.phoneNumber, onChange: this.props.onChange, 
+                    error: this.props.errors.firstName}), 
 
                 React.createElement(TextInput, {name: "address", label: "Home Address", 
                     value: this.props.contact.address, onChange: this.props.onChange}), 
 
                 React.createElement("div", {className: "text-center"}, 
-                    React.createElement("input", {type: "submit", value: "Save Contact", 
-                        className: "btn btn-primary", onClick: this.props.onSave})
+                    React.createElement("input", {type: "submit", value: "Save Contact", className: "btn btn-primary", onClick: this.props.onSave})
                 )
             )
         );
@@ -50941,7 +50972,7 @@ var ContactPage = React.createClass({displayName: "ContactPage",
         return (
             React.createElement("div", null, 
                 React.createElement("h1", null, "Contacts"), 
-                React.createElement(Link, {to: "addContact", className: "btn btn-default"}, "Add Contact"), 
+                React.createElement(Link, {to: "addContact", className: "btn btn-primary"}, "Add Contact"), 
                 React.createElement(ContactList, {contacts: this.state.contacts})
             )  
         );

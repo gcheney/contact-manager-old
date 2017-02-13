@@ -18,7 +18,8 @@ var AddContactPage = React.createClass({
                 lastName: '',
                 phoneNumber: '',
                 address: ''
-            }
+            },
+            errors: {}
         };
     },
     setContactState: function(evt) {
@@ -27,8 +28,35 @@ var AddContactPage = React.createClass({
         this.state.contact[field] = value;
         return this.setState({contact: this.state.contact});
     },
+    contactFormIsValid: function() {
+        var formIsValid = true;
+        this.state.errors = {}; // clear previous errors
+
+        if (this.state.contact.firstName.length === 0) {
+            this.state.errors.firstName = 'Please include a first name';
+            formIsValid = false;
+        }
+
+        if (this.state.contact.lastName.length === 0) {
+            this.state.errors.lastName = 'Please include a last name';
+            formIsValid = false;
+        }
+
+        if (this.state.contact.phoneNumber.length === 0) {
+            this.state.errors.phoneNumber = 'Please include a phone number';
+            formIsValid = false;
+        }
+
+        this.setState({errors: this.state.errors});
+        return formIsValid;
+    },
     saveContact: function(evt) {
         evt.preventDefault();
+
+        if (!this.contactFormIsValid()) {
+            return;
+        }
+
         ContactApi.saveContact(this.state.contact);
         toastr.success('New contact saved.');
         this.transitionTo('contacts');
@@ -39,7 +67,8 @@ var AddContactPage = React.createClass({
                 <h1 className="text-center">Add Contact</h1>
                 <ContactForm contact={this.state.contact} 
                     onChange={this.setContactState} 
-                    onSave={this.saveContact} />
+                    onSave={this.saveContact} 
+                    errors={this.state.errors}/>
             </div>
         );
     }

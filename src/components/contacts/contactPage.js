@@ -21,7 +21,7 @@ var ContactPage = React.createClass({
         return (
             <div>
                 <h1>Contacts</h1>
-                <Link to="addContact" className="btn btn-default">Add Contact</Link>
+                <Link to="addContact" className="btn btn-primary">Add Contact</Link>
                 <ContactList contacts={this.state.contacts} />
             </div>  
         );
