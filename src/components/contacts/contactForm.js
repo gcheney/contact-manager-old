@@ -4,7 +4,13 @@ var React = require('react');
 var TextInput = require('../common/textInput')
 
 var ContactForm = React.createClass({
-
+    propTypes: {
+        contact: React.PropTypes.object.isRequired,
+        onSave: React.PropTypes.func.isRequired,
+        onChange: React.PropTypes.func.isRequired,
+        errors: React.PropTypes.object
+    },
+    
     render: function() {
         return (
             <form className="col-md-8 col-md-offset-2">

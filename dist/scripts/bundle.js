@@ -50805,6 +50805,15 @@ var AddContactPage = React.createClass({displayName: "AddContactPage",
     mixins: [
         Router.Navigation
     ],
+
+    statics: {
+        willTransitionFrom: function(transition, component) {
+            if (component.state.dirty && !confirm('Are you sure? Your data will not be saved')) {
+                transition.abort();
+            }
+        }
+    },
+
     getInitialState: function() {
         return {
             contact: {
@@ -50814,15 +50823,19 @@ var AddContactPage = React.createClass({displayName: "AddContactPage",
                 phoneNumber: '',
                 address: ''
             },
-            errors: {}
+            errors: {},
+            dirty: false
         };
     },
+
     setContactState: function(evt) {
+        this.setState({dirty: true});
         var field = evt.target.name;
         var value = evt.target.value;
         this.state.contact[field] = value;
         return this.setState({contact: this.state.contact});
     },
+
     contactFormIsValid: function() {
         var formIsValid = true;
         this.state.errors = {}; // clear previous errors
@@ -50845,6 +50858,7 @@ var AddContactPage = React.createClass({displayName: "AddContactPage",
         this.setState({errors: this.state.errors});
         return formIsValid;
     },
+
     saveContact: function(evt) {
         evt.preventDefault();
 
@@ -50856,6 +50870,7 @@ var AddContactPage = React.createClass({displayName: "AddContactPage",
         toastr.success('New contact saved.');
         this.transitionTo('contacts');
     },
+
     render: function() {
         return (
             React.createElement("div", null, 
@@ -50878,7 +50893,13 @@ var React = require('react');
 var TextInput = require('../common/textInput')
 
 var ContactForm = React.createClass({displayName: "ContactForm",
-
+    propTypes: {
+        contact: React.PropTypes.object.isRequired,
+        onSave: React.PropTypes.func.isRequired,
+        onChange: React.PropTypes.func.isRequired,
+        errors: React.PropTypes.object
+    },
+    
     render: function() {
         return (
             React.createElement("form", {className: "col-md-8 col-md-offset-2"}, 
@@ -51046,7 +51067,7 @@ var routes = (
     React.createElement(Route, {name: "app", path: "/", handler: require('../components/app')}, 
         React.createElement(DefaultRoute, {handler: require('../components/home/homePage')}), 
         React.createElement(Route, {name: "contacts", handler: require('../components/contacts/contactPage')}), 
-        React.createElement(Route, {name: "addContact", path: "contacts/add", handler: require('../components/contacts/AddContactPage')}), 
+        React.createElement(Route, {name: "addContact", path: "contacts/add", handler: require('../components/contacts/addContactPage')}), 
         React.createElement(Route, {name: "about", handler: require('../components/about/aboutPage')}), 
         React.createElement(NotFoundRoute, {handler: require('../components/error/404')}), 
         React.createElement(Redirect, {from: "contact", to: "contacts"})
@@ -51055,4 +51076,4 @@ var routes = (
 
 module.exports = routes;
 
-},{"../components/about/aboutPage":201,"../components/app":202,"../components/contacts/AddContactPage":205,"../components/contacts/contactPage":208,"../components/error/404":209,"../components/home/homePage":210,"react":197,"react-router":34}]},{},[211]);
+},{"../components/about/aboutPage":201,"../components/app":202,"../components/contacts/addContactPage":205,"../components/contacts/contactPage":208,"../components/error/404":209,"../components/home/homePage":210,"react":197,"react-router":34}]},{},[211]);

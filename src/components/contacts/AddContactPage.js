@@ -10,6 +10,15 @@ var AddContactPage = React.createClass({
     mixins: [
         Router.Navigation
     ],
+
+    statics: {
+        willTransitionFrom: function(transition, component) {
+            if (component.state.dirty && !confirm('Are you sure? Your data will not be saved')) {
+                transition.abort();
+            }
+        }
+    },
+
     getInitialState: function() {
         return {
             contact: {
@@ -19,15 +28,19 @@ var AddContactPage = React.createClass({
                 phoneNumber: '',
                 address: ''
             },
-            errors: {}
+            errors: {},
+            dirty: false
         };
     },
+
     setContactState: function(evt) {
+        this.setState({dirty: true});
         var field = evt.target.name;
         var value = evt.target.value;
         this.state.contact[field] = value;
         return this.setState({contact: this.state.contact});
     },
+
     contactFormIsValid: function() {
         var formIsValid = true;
         this.state.errors = {}; // clear previous errors
@@ -50,6 +63,7 @@ var AddContactPage = React.createClass({
         this.setState({errors: this.state.errors});
         return formIsValid;
     },
+
     saveContact: function(evt) {
         evt.preventDefault();
 
@@ -61,6 +75,7 @@ var AddContactPage = React.createClass({
         toastr.success('New contact saved.');
         this.transitionTo('contacts');
     },
+
     render: function() {
         return (
             <div>
