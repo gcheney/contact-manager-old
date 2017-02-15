@@ -13,26 +13,29 @@ var ContactForm = React.createClass({
     
     render: function() {
         return (
-            <form className="col-md-8 col-md-offset-2">
-                <TextInput name="firstName" label="First Name" 
-                    value={this.props.contact.firstName} onChange={this.props.onChange} 
-                    error={this.props.errors.firstName} />
+            <div className="well clearfix">
+                <h1 className="text-center">{this.props.title}</h1>
+                <form className="col-md-8 col-md-offset-2">
+                    <TextInput name="firstName" label="First Name" 
+                        value={this.props.contact.firstName} onChange={this.props.onChange} 
+                        error={this.props.errors.firstName} />
 
-                <TextInput name="lastName" label="Last Name" 
-                    value={this.props.contact.lastName} onChange={this.props.onChange} 
-                    error={this.props.errors.firstName} />
+                    <TextInput name="lastName" label="Last Name" 
+                        value={this.props.contact.lastName} onChange={this.props.onChange} 
+                        error={this.props.errors.firstName} />
 
-                <TextInput name="phoneNumber" label="Phone Number" 
-                    value={this.props.contact.phoneNumber} onChange={this.props.onChange} 
-                    error={this.props.errors.firstName} />
+                    <TextInput name="phoneNumber" label="Phone Number" 
+                        value={this.props.contact.phoneNumber} onChange={this.props.onChange} 
+                        error={this.props.errors.firstName} />
 
-                <TextInput name="address" label="Home Address" 
-                    value={this.props.contact.address} onChange={this.props.onChange} />
+                    <TextInput name="address" label="Home Address" 
+                        value={this.props.contact.address} onChange={this.props.onChange} />
 
-                <div className="text-center">
-                    <input type="submit" value="Save Contact" className="btn btn-primary" onClick={this.props.onSave}/>
-                </div>
-            </form>
+                    <div className="text-center">
+                        <input type="submit" value="Save Contact" className="btn btn-primary" onClick={this.props.onSave}/>
+                    </div>
+                </form>
+            </div>
         );
     }
 });

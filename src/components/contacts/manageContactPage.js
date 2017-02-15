@@ -6,17 +6,19 @@ var ContactForm = require('./contactForm');
 var ContactApi = require('../../api/contactApi');
 var toastr = require('toastr');
 
-var AddContactPage = React.createClass({
+var ManageContactPage = React.createClass({
     mixins: [
         Router.Navigation
     ],
 
     statics: {
+        /*
         willTransitionFrom: function(transition, component) {
             if (component.state.dirty && !confirm('Are you sure? Your data will not be saved')) {
                 transition.abort();
             }
         }
+        */
     },
 
     getInitialState: function() {
@@ -28,9 +30,21 @@ var AddContactPage = React.createClass({
                 phoneNumber: '',
                 address: ''
             },
+            title: 'Add Contact',
             errors: {},
             dirty: false
         };
+    },
+
+    componentWillMount: function() {
+        var contactId = this.props.params.id;
+        if (contactId) {
+            console.log(ContactApi.getContactById(contactId));
+            this.setState({
+                contact: ContactApi.getContactById(contactId),
+                title: 'Edit Contact'
+            });
+        }
     },
 
     setContactState: function(evt) {
@@ -72,15 +86,15 @@ var AddContactPage = React.createClass({
         }
 
         ContactApi.saveContact(this.state.contact);
-        toastr.success('New contact saved.');
+        toastr.success('Contact saved.');
         this.transitionTo('contacts');
     },
 
     render: function() {
         return (
             <div>
-                <h1 className="text-center">Add Contact</h1>
-                <ContactForm contact={this.state.contact} 
+                <ContactForm title={this.state.title}
+                    contact={this.state.contact} 
                     onChange={this.setContactState} 
                     onSave={this.saveContact} 
                     errors={this.state.errors}/>
@@ -89,4 +103,4 @@ var AddContactPage = React.createClass({
     }
 });
 
-module.exports = AddContactPage;
+module.exports = ManageContactPage;

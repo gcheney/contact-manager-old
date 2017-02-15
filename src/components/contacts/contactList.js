@@ -1,6 +1,8 @@
 'use strict';
 
 var React = require('react');
+var Router = require('react-router');
+var Link = Router.Link;
 
 var ContactList = React.createClass({
     propTypes: {
@@ -10,7 +12,7 @@ var ContactList = React.createClass({
         var createContactRow = function(contact) {
             return (
                 <tr key={ contact.id }>
-                    <td><a href={"/#contacts/" + contact.id} className="btn btn-default">Edit</a></td>
+                    <td><Link to="editContact" params={{id: contact.id}} className="btn btn-default">Edit</Link></td>
                     <td>{contact.firstName} {contact.lastName}</td>
                     <td>{contact.phoneNumber}</td>
                     <td>{contact.address}</td>

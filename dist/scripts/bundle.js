@@ -50652,21 +50652,21 @@ module.exports = {
 	contacts: 
 	[
 		{
-			id: 1, 
+			id: '1', 
 			firstName: 'Johnny', 
 			lastName: 'Tsunami',
             phoneNumber: '333-333-3333',
             address: '123 Main street, austin, tx'
 		},	
 		{
-			id: 3, 
+			id: '3', 
 			firstName: 'Johnnny', 
 			lastName: 'Toonami',
             phoneNumber: '444-444-4444',
             address: '123 pecan street, San Antonio, tx'
 		},	
 		{
-			id: 3, 
+			id: '4', 
 			firstName: 'Jenny', 
 			lastName: 'Jenny',
             phoneNumber: '8675309',
@@ -50796,22 +50796,145 @@ module.exports = TextInput;
 'use strict';
 
 var React = require('react');
+var TextInput = require('../common/textInput')
+
+var ContactForm = React.createClass({displayName: "ContactForm",
+    propTypes: {
+        contact: React.PropTypes.object.isRequired,
+        onSave: React.PropTypes.func.isRequired,
+        onChange: React.PropTypes.func.isRequired,
+        errors: React.PropTypes.object
+    },
+    
+    render: function() {
+        return (
+            React.createElement("div", {className: "well clearfix"}, 
+                React.createElement("h1", {className: "text-center"}, this.props.title), 
+                React.createElement("form", {className: "col-md-8 col-md-offset-2"}, 
+                    React.createElement(TextInput, {name: "firstName", label: "First Name", 
+                        value: this.props.contact.firstName, onChange: this.props.onChange, 
+                        error: this.props.errors.firstName}), 
+
+                    React.createElement(TextInput, {name: "lastName", label: "Last Name", 
+                        value: this.props.contact.lastName, onChange: this.props.onChange, 
+                        error: this.props.errors.firstName}), 
+
+                    React.createElement(TextInput, {name: "phoneNumber", label: "Phone Number", 
+                        value: this.props.contact.phoneNumber, onChange: this.props.onChange, 
+                        error: this.props.errors.firstName}), 
+
+                    React.createElement(TextInput, {name: "address", label: "Home Address", 
+                        value: this.props.contact.address, onChange: this.props.onChange}), 
+
+                    React.createElement("div", {className: "text-center"}, 
+                        React.createElement("input", {type: "submit", value: "Save Contact", className: "btn btn-primary", onClick: this.props.onSave})
+                    )
+                )
+            )
+        );
+    }
+});
+
+module.exports = ContactForm;
+
+},{"../common/textInput":204,"react":197}],206:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var Router = require('react-router');
+var Link = Router.Link;
+
+var ContactList = React.createClass({displayName: "ContactList",
+    propTypes: {
+        contacts: React.PropTypes.array.isRequired
+    },
+    render: function() {
+        var createContactRow = function(contact) {
+            return (
+                React.createElement("tr", {key:  contact.id}, 
+                    React.createElement("td", null, React.createElement(Link, {to: "editContact", params: {id: contact.id}, className: "btn btn-default"}, "Edit")), 
+                    React.createElement("td", null, contact.firstName, " ", contact.lastName), 
+                    React.createElement("td", null, contact.phoneNumber), 
+                    React.createElement("td", null, contact.address)
+                )
+            );
+        };
+
+        return (
+            React.createElement("div", null, 
+                React.createElement("table", {className: "table"}, 
+                    React.createElement("thead", null, 
+                        React.createElement("th", null, " "), 
+                        React.createElement("th", null, "Name"), 
+                        React.createElement("th", null, "Phone Number"), 
+                        React.createElement("th", null, "Home Address")
+                    ), 
+                    React.createElement("tbody", null, 
+                        this.props.contacts.map(createContactRow, this)
+                    )
+                )
+            )
+        );
+    }
+});
+
+module.exports = ContactList;
+
+},{"react":197,"react-router":34}],207:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var Router = require('react-router');
+var Link = require('react-router').Link;
+var ContactApi = require('../../api/contactApi');
+var ContactList = require('./contactList');
+
+var ContactPage = React.createClass({displayName: "ContactPage",
+    getInitialState: function() {
+        return {
+            contacts: []
+        };
+    },
+    componentDidMount: function() {
+        if (this.isMounted()) {
+            this.setState({ contacts: ContactApi.getAllContacts() });
+        }
+    },
+    render: function() {
+        return (
+            React.createElement("div", null, 
+                React.createElement("h1", null, "Contacts"), 
+                React.createElement(Link, {to: "addContact", className: "btn btn-primary"}, "Add Contact"), 
+                React.createElement(ContactList, {contacts: this.state.contacts})
+            )  
+        );
+    }
+});
+
+module.exports = ContactPage;
+
+},{"../../api/contactApi":199,"./contactList":206,"react":197,"react-router":34}],208:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
 var Router = require('react-router');
 var ContactForm = require('./contactForm');
 var ContactApi = require('../../api/contactApi');
 var toastr = require('toastr');
 
-var AddContactPage = React.createClass({displayName: "AddContactPage",
+var ManageContactPage = React.createClass({displayName: "ManageContactPage",
     mixins: [
         Router.Navigation
     ],
 
     statics: {
+        /*
         willTransitionFrom: function(transition, component) {
             if (component.state.dirty && !confirm('Are you sure? Your data will not be saved')) {
                 transition.abort();
             }
         }
+        */
     },
 
     getInitialState: function() {
@@ -50823,9 +50946,21 @@ var AddContactPage = React.createClass({displayName: "AddContactPage",
                 phoneNumber: '',
                 address: ''
             },
+            title: 'Add Contact',
             errors: {},
             dirty: false
         };
+    },
+
+    componentWillMount: function() {
+        var contactId = this.props.params.id;
+        if (contactId) {
+            console.log(ContactApi.getContactById(contactId));
+            this.setState({
+                contact: ContactApi.getContactById(contactId),
+                title: 'Edit Contact'
+            });
+        }
     },
 
     setContactState: function(evt) {
@@ -50867,15 +51002,15 @@ var AddContactPage = React.createClass({displayName: "AddContactPage",
         }
 
         ContactApi.saveContact(this.state.contact);
-        toastr.success('New contact saved.');
+        toastr.success('Contact saved.');
         this.transitionTo('contacts');
     },
 
     render: function() {
         return (
             React.createElement("div", null, 
-                React.createElement("h1", {className: "text-center"}, "Add Contact"), 
-                React.createElement(ContactForm, {contact: this.state.contact, 
+                React.createElement(ContactForm, {title: this.state.title, 
+                    contact: this.state.contact, 
                     onChange: this.setContactState, 
                     onSave: this.saveContact, 
                     errors: this.state.errors})
@@ -50884,125 +51019,9 @@ var AddContactPage = React.createClass({displayName: "AddContactPage",
     }
 });
 
-module.exports = AddContactPage;
+module.exports = ManageContactPage;
 
-},{"../../api/contactApi":199,"./contactForm":206,"react":197,"react-router":34,"toastr":198}],206:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var TextInput = require('../common/textInput')
-
-var ContactForm = React.createClass({displayName: "ContactForm",
-    propTypes: {
-        contact: React.PropTypes.object.isRequired,
-        onSave: React.PropTypes.func.isRequired,
-        onChange: React.PropTypes.func.isRequired,
-        errors: React.PropTypes.object
-    },
-    
-    render: function() {
-        return (
-            React.createElement("form", {className: "col-md-8 col-md-offset-2"}, 
-                React.createElement(TextInput, {name: "firstName", label: "First Name", 
-                    value: this.props.contact.firstName, onChange: this.props.onChange, 
-                    error: this.props.errors.firstName}), 
-
-                React.createElement(TextInput, {name: "lastName", label: "Last Name", 
-                    value: this.props.contact.lastName, onChange: this.props.onChange, 
-                    error: this.props.errors.firstName}), 
-
-                React.createElement(TextInput, {name: "phoneNumber", label: "Phone Number", 
-                    value: this.props.contact.phoneNumber, onChange: this.props.onChange, 
-                    error: this.props.errors.firstName}), 
-
-                React.createElement(TextInput, {name: "address", label: "Home Address", 
-                    value: this.props.contact.address, onChange: this.props.onChange}), 
-
-                React.createElement("div", {className: "text-center"}, 
-                    React.createElement("input", {type: "submit", value: "Save Contact", className: "btn btn-primary", onClick: this.props.onSave})
-                )
-            )
-        );
-    }
-});
-
-module.exports = ContactForm;
-
-},{"../common/textInput":204,"react":197}],207:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-
-var ContactList = React.createClass({displayName: "ContactList",
-    propTypes: {
-        contacts: React.PropTypes.array.isRequired
-    },
-    render: function() {
-        var createContactRow = function(contact) {
-            return (
-                React.createElement("tr", {key:  contact.id}, 
-                    React.createElement("td", null, React.createElement("a", {href: "/#contacts/" + contact.id, className: "btn btn-default"}, "Edit")), 
-                    React.createElement("td", null, contact.firstName, " ", contact.lastName), 
-                    React.createElement("td", null, contact.phoneNumber), 
-                    React.createElement("td", null, contact.address)
-                )
-            );
-        };
-
-        return (
-            React.createElement("div", null, 
-                React.createElement("table", {className: "table"}, 
-                    React.createElement("thead", null, 
-                        React.createElement("th", null, " "), 
-                        React.createElement("th", null, "Name"), 
-                        React.createElement("th", null, "Phone Number"), 
-                        React.createElement("th", null, "Home Address")
-                    ), 
-                    React.createElement("tbody", null, 
-                        this.props.contacts.map(createContactRow, this)
-                    )
-                )
-            )
-        );
-    }
-});
-
-module.exports = ContactList;
-
-},{"react":197}],208:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var Router = require('react-router');
-var Link = require('react-router').Link;
-var ContactApi = require('../../api/contactApi');
-var ContactList = require('./contactList');
-
-var ContactPage = React.createClass({displayName: "ContactPage",
-    getInitialState: function() {
-        return {
-            contacts: []
-        };
-    },
-    componentDidMount: function() {
-        if (this.isMounted()) {
-            this.setState({ contacts: ContactApi.getAllContacts() });
-        }
-    },
-    render: function() {
-        return (
-            React.createElement("div", null, 
-                React.createElement("h1", null, "Contacts"), 
-                React.createElement(Link, {to: "addContact", className: "btn btn-primary"}, "Add Contact"), 
-                React.createElement(ContactList, {contacts: this.state.contacts})
-            )  
-        );
-    }
-});
-
-module.exports = ContactPage;
-
-},{"../../api/contactApi":199,"./contactList":207,"react":197,"react-router":34}],209:[function(require,module,exports){
+},{"../../api/contactApi":199,"./contactForm":205,"react":197,"react-router":34,"toastr":198}],209:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -51067,7 +51086,8 @@ var routes = (
     React.createElement(Route, {name: "app", path: "/", handler: require('../components/app')}, 
         React.createElement(DefaultRoute, {handler: require('../components/home/homePage')}), 
         React.createElement(Route, {name: "contacts", handler: require('../components/contacts/contactPage')}), 
-        React.createElement(Route, {name: "addContact", path: "contacts/add", handler: require('../components/contacts/addContactPage')}), 
+        React.createElement(Route, {name: "addContact", path: "contacts/add", handler: require('../components/contacts/manageContactPage')}), 
+        React.createElement(Route, {name: "editContact", path: "contacts/:id", handler: require('../components/contacts/manageContactPage')}), 
         React.createElement(Route, {name: "about", handler: require('../components/about/aboutPage')}), 
         React.createElement(NotFoundRoute, {handler: require('../components/error/404')}), 
         React.createElement(Redirect, {from: "contact", to: "contacts"})
@@ -51076,4 +51096,4 @@ var routes = (
 
 module.exports = routes;
 
-},{"../components/about/aboutPage":201,"../components/app":202,"../components/contacts/addContactPage":205,"../components/contacts/contactPage":208,"../components/error/404":209,"../components/home/homePage":210,"react":197,"react-router":34}]},{},[211]);
+},{"../components/about/aboutPage":201,"../components/app":202,"../components/contacts/contactPage":207,"../components/contacts/manageContactPage":208,"../components/error/404":209,"../components/home/homePage":210,"react":197,"react-router":34}]},{},[211]);
