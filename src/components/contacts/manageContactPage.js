@@ -3,7 +3,8 @@
 var React = require('react');
 var Router = require('react-router');
 var ContactForm = require('./contactForm');
-var ContactApi = require('../../api/contactApi');
+var ContactActions = require('../../actions/contactActions');
+var ContactStore = require('../../stores/contactStore');
 var toastr = require('toastr');
 
 var ManageContactPage = React.createClass({
@@ -39,9 +40,8 @@ var ManageContactPage = React.createClass({
     componentWillMount: function() {
         var contactId = this.props.params.id;
         if (contactId) {
-            console.log(ContactApi.getContactById(contactId));
             this.setState({
-                contact: ContactApi.getContactById(contactId),
+                contact: ContactStore.getContactById(contactId),
                 title: 'Edit Contact'
             });
         }
@@ -85,7 +85,7 @@ var ManageContactPage = React.createClass({
             return;
         }
 
-        ContactApi.saveContact(this.state.contact);
+        ContactActions.createContact(this.state.contact);
         toastr.success('Contact saved.');
         this.transitionTo('contacts');
     },

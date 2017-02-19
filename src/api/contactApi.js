@@ -5,23 +5,23 @@ var contacts = require('./contactData').contacts;
 var _ = require('lodash');
 
 //This would be performed on the server in a real app. Just stubbing in.
-var _generateId = function(contact) {
+var generateId = function(contact) {
 	return Math.floor(Math.random() * 20);
 };
 
-var _clone = function(item) {
+var clone = function(item) {
     //return cloned copy so that the item is passed by value instead of by reference
 	return JSON.parse(JSON.stringify(item)); 
 };
 
 var ContactApi = {
 	getAllContacts: function() {
-		return _clone(contacts); 
+		return clone(contacts); 
 	},
 
 	getContactById: function(id) {
 		var contact = _.find(contacts, {id: id});
-		return _clone(contact);
+		return clone(contact);
 	},
 	
 	saveContact: function(contact) {
@@ -29,11 +29,11 @@ var ContactApi = {
 			var existingContactIndex = _.indexOf(contacts, _.find(contacts, {id: contact.id})); 
 			contacts.splice(existingContactIndex, 1, contact);
 		} else {
-			contact.id = _generateId(contact);
+			contact.id = generateId(contact);
 			contacts.push(contact);
 		}
 
-		return _clone(contact);
+		return clone(contact);
 	},
 
 	deleteContact: function(id) {

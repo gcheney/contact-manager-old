@@ -3,19 +3,15 @@
 var React = require('react');
 var Router = require('react-router');
 var Link = require('react-router').Link;
-var ContactApi = require('../../api/contactApi');
+var ContactActions = require('../../actions/contactActions');
+var ContactStore = require('../../stores/contactStore');
 var ContactList = require('./contactList');
 
 var ContactPage = React.createClass({
     getInitialState: function() {
         return {
-            contacts: []
+            contacts: ContactStore.getAllContacts()
         };
-    },
-    componentDidMount: function() {
-        if (this.isMounted()) {
-            this.setState({ contacts: ContactApi.getAllContacts() });
-        }
     },
     render: function() {
         return (
