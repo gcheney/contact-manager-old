@@ -42,9 +42,19 @@ Dispatcher.register(function(action) {
             contacts.push(action.contact);
             ContactStore.emitChange();
             break;
+        case ActionTypes.UPDATE_CONTACT:
+            updateContact(action.contact);
+            ContactStore.emitChange();
+            break;
         default: 
             // no action
     }
 });
+
+function updateContact(contact) {
+    var contactToUpdate = _.find(contacts, {id: contact.id}); 
+    var contactIndex = _.indexOf(contacts, contactToUpdate);
+    contacts.splice(contactIndex, 1, contact);
+}
 
 module.exports = ContactStore;

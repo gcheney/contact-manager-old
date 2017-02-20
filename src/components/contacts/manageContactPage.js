@@ -13,13 +13,11 @@ var ManageContactPage = React.createClass({
     ],
 
     statics: {
-        /*
         willTransitionFrom: function(transition, component) {
             if (component.state.dirty && !confirm('Are you sure? Your data will not be saved')) {
                 transition.abort();
             }
         }
-        */
     },
 
     getInitialState: function() {
@@ -85,8 +83,15 @@ var ManageContactPage = React.createClass({
             return;
         }
 
-        ContactActions.createContact(this.state.contact);
-        toastr.success('Contact saved.');
+        if (this.state.contact.id) {
+            ContactActions.updateContact(this.state.contact);
+            toastr.success('Contact updated.');
+        } else {
+            ContactActions.createContact(this.state.contact);
+            toastr.success('New contact saved.');
+        }
+
+        this.setState({dirty: false});
         this.transitionTo('contacts');
     },
 
